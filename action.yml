@@ -1,0 +1,28 @@
+# Copyright (c) 2022 Jaehong Kang
+# Licensed under Apache License v2.0
+
+name: 'GitHub Actions for Swift'
+description: 'Additional Swift supports on GitHub Actions'
+author: 'Jaehong Kang <sinoru@me.com>'
+branding:
+  icon: 'code'
+  color: 'orange'
+inputs:
+  image-tag:
+    description: 'A Swift docker image tag to use.'
+    required: false
+    default: 'latest'
+  args:
+    description: 'Arguments to Swift.'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - if: ${{ inputs.image-tag == null }}
+      shell: bash
+      run: swift.sh ${{ inputs.args }}
+    - if: ${{ inputs.image-tag != null }}
+      uses: 'docker://swift:${{ inputs.image-tag }}'
+      with:
+        entrypoint: swift.sh
+        args: ${{ inputs.args }}

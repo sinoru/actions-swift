@@ -1,0 +1,65 @@
+# Copyright (c) 2022 Jaehong Kang
+# Licensed under Apache License v2.0
+
+name: Tests
+
+on:
+  push:
+    paths-ignore:
+      - 'LICENSE'
+      - 'README.md'
+  pull_request:
+    paths-ignore:
+      - 'LICENSE'
+      - 'README.md'
+
+jobs:
+  tests-with-docker:
+    name: Tests with Docker
+    strategy:
+      fail-fast: true
+      matrix: 
+        image-tag: [
+          "5.6-bionic",
+          "5.6-focal",
+          "5.6-centos",
+          "5.5-bionic",
+          "5.5-focal",
+          "5.5-centos",
+          "5.4-bionic",
+          "5.4-focal",
+          "5.4-centos",
+        ]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        with:
+          image-tag: ${{ matrix.image-tag }}
+          args: build --package-path tests
+
+  tests-without-docker:
+    name: Tests without Docker
+    strategy:
+      fail-fast: true
+      matrix:
+        operating-system: ["macos-12", "ubuntu-18.04", "ubuntu-20.04"]
+        swift-version: ["5.6.2"]
+        include:
+          - swift-version: "5.6.2"
+            xcode-version: "13.4.1"
+    runs-on: ${{ matrix.operating-system }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: sinoru/actions-setup-xcode@v2
+        if: ${{ startsWith(matrix.operating-system, 'macos') && matrix.xcode-version }}
+        with:
+          xcode-version: ${{ matrix.xcode-version }}
+          apple-id: ${{ secrets.APPLE_ID }}
+          apple-id-password: ${{ secrets.APPLE_ID_PASSWORD }}
+      - uses: sinoru/actions-setup-swift@v2
+        with:
+          swift-version: ${{ matrix.swift-version }}
+      - uses: ./
+        with:
+          image-tag: null
+          args: build --package-path tests
