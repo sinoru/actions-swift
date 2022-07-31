@@ -9,7 +9,6 @@ function outputHandler() {
     do
         WORKFLOW_COMMANDS="$(echo "$LINE" | sed -E 's/^(\/[^:]+):([0-9]+):([0-9]+): (warning|error): (.*)/::\4 file=\1,line=\2,col=\3,title=\4::\5/g')"
 
-        LINE="$(echo "$LINE" | sed -E 's/^(\/[^:]+):([0-9]+):([0-9]+): (warning|error): (.*)/::\4 file=\1,line=\2,col=\3,title=\4::\5/g')"
         case $WORKFLOW_COMMANDS in
         "")
             echo "$LINE" ;;
