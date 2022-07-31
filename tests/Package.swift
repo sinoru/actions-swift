@@ -19,7 +19,7 @@ let package = Package(
             name: "Error",
             dependencies: []),
         .testTarget(
-            name: "actions-swift-testsTests",
-            dependencies: ["actions-swift-tests"]),
+            name: "FailTests",
+            dependencies: []),
     ]
 )
