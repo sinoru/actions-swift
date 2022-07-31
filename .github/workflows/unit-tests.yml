@@ -36,13 +36,4 @@ jobs:
     runs-on: ${{ matrix.operating-system }}
     steps:
       - uses: actions/checkout@v3
-      - uses: sinoru/actions-setup-xcode@v2
-        if: ${{ startsWith(runner.os, 'macOS') && matrix.xcode-version }}
-        with:
-          xcode-version: ${{ matrix.xcode-version }}
-          apple-id: ${{ secrets.APPLE_ID }}
-          apple-id-password: ${{ secrets.APPLE_ID_PASSWORD }}
-      - uses: sinoru/actions-setup-swift@v2
-        with:
-          swift-version: ${{ matrix.swift-version }}
-      - run: diff <(swift build --package-path action-tests --product Warning) unit-tests/warning-expected.txt
+      - run: diff <(cat unit-tests/warning-source.txt | libexec/github-action-output-handler) unit-tests/warning-expected.txt
