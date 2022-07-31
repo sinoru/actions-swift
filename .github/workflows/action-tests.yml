@@ -41,7 +41,7 @@ jobs:
       - uses: ./
         with:
           swift-image-tag: ${{ matrix.swift-image-tag }}
-          args: build --package-path tests --product actions-swift-tests
+          args: build --package-path tests --product Warning
 
   tests-without-docker:
     name: Tests w/o Docker
@@ -57,4 +57,4 @@ jobs:
         with:
           swift-image-tag: null
           swift-version: ${{ matrix.swift-version }}
-          args: build --package-path tests --product actions-swift-tests
+          args: build --package-path tests --product Warning
