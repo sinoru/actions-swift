@@ -4,7 +4,7 @@ import subprocess
 
 swift = subprocess.Popen(["swift", *sys.argv], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
-while swift.poll() == None:
+while swift.poll() is None:
     stdout = swift.stdout.readline()
     stderr = swift.stderr.readline()
 
