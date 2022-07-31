@@ -1,17 +1,19 @@
 # Copyright (c) 2022 Jaehong Kang
 # Licensed under Apache License v2.0
 
-name: Tests
+name: Action Tests
 
 on:
   push:
-    paths-ignore:
-      - 'LICENSE'
-      - 'README.md'
+    paths:
+      - 'action.yml'
+      - 'swift.sh'
+      - 'tests/**/*'
   pull_request:
     paths-ignore:
-      - 'LICENSE'
-      - 'README.md'
+      - 'action.yml'
+      - 'swift.sh'
+      - 'tests/**/*'
 
 jobs:
   tests-with-docker:
@@ -54,13 +56,3 @@ jobs:
           swift-image-tag: null
           swift-version: ${{ matrix.swift-version }}
           args: build --package-path tests
-
-  tests-entrypoint:
-    name: Test Entrypoint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: sinoru/actions-setup-swift@v2
-        with:
-          swift-version: '5.6.2'
-      - run: diff <(swift.sh build --package-path tests) tests/expected.txt
