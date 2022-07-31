@@ -16,8 +16,8 @@ on:
       - 'tests/**/*'
 
 jobs:
-  warning-test:
-    name: Warning Test
+  warning:
+    name: Warning
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
