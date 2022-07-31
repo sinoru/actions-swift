@@ -6,10 +6,12 @@ name: Shell Tests
 on:
   push:
     paths:
+      - '.github/workflows/shell-tests.yml'
       - 'swift.sh'
       - 'tests/**/*'
   pull_request:
     paths-ignore:
+      - '.github/workflows/shell-tests.yml'
       - 'swift.sh'
       - 'tests/**/*'
 
