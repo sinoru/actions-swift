@@ -1,17 +1,17 @@
 # Copyright (c) 2022 Jaehong Kang
 # Licensed under Apache License v2.0
 
-name: Shell Tests
+name: Unit Tests
 
 on:
   push:
     paths:
-      - '.github/workflows/shell-tests.yml'
+      - '.github/workflows/unit-tests.yml'
       - 'swift.sh'
       - 'tests/**/*'
   pull_request:
     paths-ignore:
-      - '.github/workflows/shell-tests.yml'
+      - '.github/workflows/unit-tests.yml'
       - 'swift.sh'
       - 'tests/**/*'
 
@@ -45,4 +45,4 @@ jobs:
       - uses: sinoru/actions-setup-swift@v2
         with:
           swift-version: ${{ matrix.swift-version }}
-      - run: diff <(./swift.sh build --package-path tests --product Warning | sed -e '$ d') tests/warning-expected.txt
+      - run: diff <(swift build --package-path test --product Warning) tests/warning-expected.txt
