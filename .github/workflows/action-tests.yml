@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix: 
-        operating-system: ["ubuntu-18.04", "ubuntu-20.04"]
+        operating-system: ["ubuntu-latest"]
         swift-image-tag: [
           "5.6-bionic",
           "5.6-focal",
