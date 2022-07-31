@@ -18,10 +18,31 @@ on:
 jobs:
   warning:
     name: Warning
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        operating-system: ["ubuntu-latest"]
+        swift-version: ["5.4.3", "5.5.3", "5.6.2"]
+        include:
+          - operating-system: "macos-12"
+            swift-version: "5.6.2"
+            xcode-version: "13.4.1"
+          - operating-system: "macos-12"
+            swift-version: "5.5.3"
+            xcode-version: "13.2.1"
+          - operating-system: "macos-11"
+            swift-version: "5.4.3"
+            xcode-version: "12.5.1"
+    runs-on: ${{ matrix.operating-system }}
     steps:
       - uses: actions/checkout@v3
+      - uses: sinoru/actions-setup-xcode@v2
+        if: ${{ startsWith(runner.os, 'macOS') && matrix.xcode-version }}
+        with:
+          xcode-version: ${{ matrix.xcode-version }}
+          apple-id: ${{ secrets.APPLE_ID }}
+          apple-id-password: ${{ secrets.APPLE_ID_PASSWORD }}
       - uses: sinoru/actions-setup-swift@v2
         with:
-          swift-version: '5.6.2'
+          swift-version: ${{ matrix.swift-version }}
       - run: diff <(./swift.sh build --package-path tests --product Warning | sed -e '$ d') tests/warning-expected.txt
