@@ -1,0 +1,24 @@
+Building for debugging...
+[1/4] Emitting module Warning
+/home/runner/work/actions-swift/actions-swift/action-tests/Sources/Warning/main.swift:1:10: warning: A warning message for tests.
+#warning("A warning message for tests.")
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/actions-swift/actions-swift/action-tests/Sources/Warning/main.swift:2:10: warning: A warning message for tests.
+#warning("A warning message for tests.")
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/actions-swift/actions-swift/action-tests/Sources/Warning/main.swift:3:10: warning: A warning message for tests.
+#warning("A warning message for tests.")
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[2/4] Compiling Warning main.swift
+/home/runner/work/actions-swift/actions-swift/action-tests/Sources/Warning/main.swift:1:10: warning: A warning message for tests.
+#warning("A warning message for tests.")
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/actions-swift/actions-swift/action-tests/Sources/Warning/main.swift:2:10: warning: A warning message for tests.
+#warning("A warning message for tests.")
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/actions-swift/actions-swift/action-tests/Sources/Warning/main.swift:3:10: warning: A warning message for tests.
+#warning("A warning message for tests.")
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[5/6] Wrapping AST for Warning for debugging
+[6/6] Linking Warning
+Build complete! (2.49s)

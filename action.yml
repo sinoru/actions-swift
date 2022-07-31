@@ -1,0 +1,44 @@
+# Copyright (c) 2022 Jaehong Kang
+# Licensed under Apache License v2.0
+
+name: 'GitHub Actions for Swift'
+description: 'Additional Swift supports on GitHub Actions'
+author: 'Jaehong Kang <sinoru@me.com>'
+branding:
+  icon: 'code'
+  color: 'orange'
+inputs:
+  swift-image-tag:
+    description: 'A Swift docker image tag to use.'
+    required: false
+    default: 'latest'
+  swift-version:
+    description: 'A Swift version to download using swift-env.'
+    required: false
+  args:
+    description: 'Arguments to Swift.'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - if: ${{ inputs.swift-image-tag == null && inputs.swift-version != null }}
+      uses: sinoru/actions-setup-swift@v2
+      with:
+        swift-version: ${{ inputs.swift-version }}
+    - if: ${{ inputs.swift-image-tag == null }}
+      shell: bash
+      run: '"${{ github.action_path }}/swift" ${{ inputs.args }}'
+
+    - if: ${{ inputs.swift-image-tag != null }}
+      shell: bash
+      run: docker pull swift:${{ inputs.swift-image-tag }}
+    - if: ${{ inputs.swift-image-tag != null }}
+      shell: bash
+      run: |
+        docker run \
+          -a stdin -a stdout -a stderr \
+          -v "${{ github.action_path }}":/opt/actions-swift \
+          -v `pwd`:`pwd` -w `pwd` \
+          --entrypoint "/opt/actions-swift/swift" \
+          swift:${{ inputs.swift-image-tag }} \
+          ${{ inputs.args }}

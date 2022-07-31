@@ -1,0 +1,39 @@
+# Copyright (c) 2022 Jaehong Kang
+# Licensed under Apache License v2.0
+
+name: Unit Tests
+
+on:
+  push:
+    paths:
+      - '.github/workflows/unit-tests.yml'
+      - 'libexec/**/*'
+      - 'unit-tests/**/*'
+  pull_request:
+    paths-ignore:
+      - '.github/workflows/unit-tests.yml'
+      - 'libexec/**/*'
+      - 'unit-tests/**/*'
+
+jobs:
+  warning:
+    name: Warning
+    strategy:
+      fail-fast: true
+      matrix:
+        operating-system: ["ubuntu-latest"]
+        swift-version: ["5.4.3", "5.5.3", "5.6.2"]
+        include:
+          - operating-system: "macos-12"
+            swift-version: "5.6.2"
+            xcode-version: "13.4.1"
+          - operating-system: "macos-12"
+            swift-version: "5.5.3"
+            xcode-version: "13.2.1"
+          - operating-system: "macos-11"
+            swift-version: "5.4.3"
+            xcode-version: "12.5.1"
+    runs-on: ${{ matrix.operating-system }}
+    steps:
+      - uses: actions/checkout@v3
+      - run: diff <(cat unit-tests/warning-source.txt | libexec/github-action-output-handler) unit-tests/warning-expected.txt

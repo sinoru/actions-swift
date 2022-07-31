@@ -1,0 +1,78 @@
+# Copyright (c) 2022 Jaehong Kang
+# Licensed under Apache License v2.0
+
+name: Action Tests
+
+on:
+  push:
+    paths:
+      - '.github/workflows/action-tests.yml'
+      - 'action.yml'
+      - 'swift'
+      - 'libexec/**/*'
+      - 'action-tests/**/*'
+  pull_request:
+    paths-ignore:
+      - '.github/workflows/action-tests.yml'
+      - 'action.yml'
+      - 'swift'
+      - 'libexec/**/*'
+      - 'action-tests/**/*'
+
+jobs:
+  tests-with-docker:
+    name: Tests w/ Docker
+    strategy:
+      fail-fast: true
+      matrix: 
+        operating-system: ["ubuntu-latest"]
+        swift-image-tag: [
+          "5.6-bionic",
+          "5.6-focal",
+          "5.6-centos7",
+          "5.5-bionic",
+          "5.5-focal",
+          "5.5-centos7",
+          "5.4-bionic",
+          "5.4-focal",
+          "5.4-centos7",
+        ]
+    runs-on: ${{ matrix.operating-system }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        with:
+          swift-image-tag: ${{ matrix.swift-image-tag }}
+          args: build --package-path action-tests --product Warning
+
+  tests-without-docker:
+    name: Tests w/o Docker
+    strategy:
+      fail-fast: true
+      matrix:
+        operating-system: ["ubuntu-18.04", "ubuntu-20.04"]
+        swift-version: ["5.4.3", "5.5.3", "5.6.2"]
+        include:
+          - operating-system: "macos-12"
+            swift-version: "5.6.2"
+            xcode-version: "13.4.1"
+          - operating-system: "macos-12"
+            swift-version: "5.5.3"
+            xcode-version: "13.2.1"
+          - operating-system: "macos-11"
+            swift-version: "5.4.3"
+            xcode-version: "12.5.1"
+    runs-on: ${{ matrix.operating-system }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: sinoru/actions-setup-xcode@v2
+        if: ${{ startsWith(runner.os, 'macOS') && matrix.xcode-version }}
+        with:
+          xcode-version: ${{ matrix.xcode-version }}
+          apple-id: ${{ secrets.APPLE_ID }}
+          apple-id-password: ${{ secrets.APPLE_ID_PASSWORD }}
+      - uses: ./
+        with:
+          swift-image-tag: null
+          swift-version: ${{ matrix.swift-version }}
+          args: build --package-path action-tests --product Warning
