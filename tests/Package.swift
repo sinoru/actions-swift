@@ -14,6 +14,12 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .executableTarget(
             name: "actions-swift-tests",
+            dependencies: ["warning", "error"]),
+        .target(
+            name: "warning",
+            dependencies: []),
+        .target(
+            name: "error",
             dependencies: []),
         .testTarget(
             name: "actions-swift-testsTests",

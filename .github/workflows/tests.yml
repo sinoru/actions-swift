@@ -54,3 +54,13 @@ jobs:
           swift-image-tag: null
           swift-version: ${{ matrix.swift-version }}
           args: build --package-path tests
+
+  tests-entrypoint:
+    name: Test Entrypoint
+    runs-on: ubuntu-latest
+    stesp:
+      - uses: actions/checkout@v3
+      - uses: sinoru/actions-setup-swift@v2
+        with:
+          swift-version: '5.6.2'
+      - run: diff <(swift.sh build --package-path tests) tests/expected.txt
