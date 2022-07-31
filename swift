@@ -4,4 +4,6 @@
 
 set -o pipefail
 
-swift "$@" | libexec/github-action-output-handler
+BASE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+swift "$@" | "$BASE_DIR/libexec/github-action-output-handler"
