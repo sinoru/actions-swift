@@ -3,7 +3,10 @@ import Foundation
 
 var process = Process()
 process.executableURL = URL(fileURLWithPath: "/usr/bin/env")
-process.arguments = ["swift"] + ProcessInfo.processInfo.arguments
+process.arguments = ["swift"] + (ProcessInfo.processInfo.arguments.split(separator: "--").last ?? [])
+process.environment = ProcessInfo.processInfo.environment
+
+process.standardInput = FileHandle.standardInput
 
 let standardOutputPipe = Pipe()
 standardOutputPipe.fileHandleForReading.readabilityHandler = { fileHandle in
@@ -23,3 +26,5 @@ process.standardError = standardErrorPipe
 
 try! process.run()
 process.waitUntilExit()
+
+exit(0)
