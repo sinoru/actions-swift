@@ -27,7 +27,7 @@ runs:
         swift-version: ${{ inputs.swift-version }}
     - if: ${{ inputs.swift-image-tag == null }}
       shell: bash
-      run: '"${{ github.action_path }}/swift.py" ${{ inputs.args }}'
+      run: '"${{ github.action_path }}/swift.swift" ${{ inputs.args }}'
 
     - if: ${{ inputs.swift-image-tag != null }}
       shell: bash
@@ -39,6 +39,6 @@ runs:
           -a stdin -a stdout -a stderr \
           -v "${{ github.action_path }}":/opt/actions-swift \
           -v `pwd`:`pwd` -w `pwd` \
-          --entrypoint "/opt/actions-swift/swift.py" \
+          --entrypoint "/opt/actions-swift/swift.swift" \
           swift:${{ inputs.swift-image-tag }} \
           ${{ inputs.args }}
