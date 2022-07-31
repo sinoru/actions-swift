@@ -14,7 +14,7 @@ on:
       - 'tests/**/*'
 
 jobs:
-    tests:
+  tests:
     name: Tests
     runs-on: ubuntu-latest
     steps:
