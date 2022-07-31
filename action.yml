@@ -23,6 +23,9 @@ runs:
       run: swift.sh ${{ inputs.args }}
     - if: ${{ inputs.image-tag != null }}
       shell: bash
+      run: docker pull swift:${{ inputs.image-tag }}
+    - if: ${{ inputs.image-tag != null }}
+      shell: bash
       run: |
         docker run \
         -a stdin -a stdout -a stderr \
