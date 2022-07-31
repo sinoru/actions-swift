@@ -20,7 +20,8 @@ runs:
   steps:
     - if: ${{ inputs.image-tag == null }}
       shell: bash
-      run: "${{ github.action_path }}/swift.sh" ${{ inputs.args }}
+      run: |
+        "${{ github.action_path }}/swift.sh" ${{ inputs.args }}
     - if: ${{ inputs.image-tag != null }}
       shell: bash
       run: docker pull swift:${{ inputs.image-tag }}
