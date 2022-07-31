@@ -8,12 +8,12 @@ on:
     paths:
       - '.github/workflows/unit-tests.yml'
       - 'swift.sh'
-      - 'tests/**/*'
+      - 'unit-tests/**/*'
   pull_request:
     paths-ignore:
       - '.github/workflows/unit-tests.yml'
       - 'swift.sh'
-      - 'tests/**/*'
+      - 'unit-tests/**/*'
 
 jobs:
   warning:
@@ -45,4 +45,4 @@ jobs:
       - uses: sinoru/actions-setup-swift@v2
         with:
           swift-version: ${{ matrix.swift-version }}
-      - run: diff <(swift build --package-path test --product Warning) tests/warning-expected.txt
+      - run: diff <(swift build --package-path test --product Warning) unit-tests/warning-expected.txt
