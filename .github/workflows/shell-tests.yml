@@ -24,4 +24,4 @@ jobs:
       - uses: sinoru/actions-setup-swift@v2
         with:
           swift-version: '5.6.2'
-      - run: diff <(./swift.sh build --package-path tests warning) tests/warning-expected.txt
+      - run: diff <(./swift.sh build --package-path tests --product warning) tests/warning-expected.txt
