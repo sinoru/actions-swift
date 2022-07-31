@@ -4,4 +4,8 @@
 
 set -o pipefail
 
-swift "$@"
+function outputHandler() {
+    cat
+}
+
+swift "$@" | outputHandler
