@@ -15,7 +15,7 @@ on:
 
 jobs:
   tests-with-docker:
-    name: Tests with Docker
+    name: Tests w/ Docker
     strategy:
       fail-fast: true
       matrix: 
@@ -40,7 +40,7 @@ jobs:
           args: build --package-path tests
 
   tests-without-docker:
-    name: Tests without Docker
+    name: Tests w/o Docker
     strategy:
       fail-fast: true
       matrix:
