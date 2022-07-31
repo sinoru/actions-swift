@@ -23,13 +23,13 @@ jobs:
         image-tag: [
           "5.6-bionic",
           "5.6-focal",
-          "5.6-centos",
+          "5.6-centos7",
           "5.5-bionic",
           "5.5-focal",
-          "5.5-centos",
+          "5.5-centos7",
           "5.4-bionic",
           "5.4-focal",
-          "5.4-centos",
+          "5.4-centos7",
         ]
     runs-on: ${{ matrix.operating-system }}
     steps:
