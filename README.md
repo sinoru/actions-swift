@@ -26,11 +26,11 @@ jobs:
       - uses: actions/checkout@v3
       - uses: sinoru/actions-swift@v1
         with:
-          swift-image-tag: '5.6'
+          swift-image-tag: 'latest'
           args: 'build'
       - uses: sinoru/actions-swift@v1
         with:
-          swift-image-tag: '5.6'
+          swift-image-tag: 'latest'
           args: 'test'
 
   swift-without-docker:
