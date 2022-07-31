@@ -28,9 +28,9 @@ runs:
       shell: bash
       run: |
         docker run \
-        -a stdin -a stdout -a stderr \
-        -v "${{ github.action_path }}":"${{ github.action_path }}" \
-        -v `pwd`:`pwd` -w `pwd` \
-        --entrypoint "${{ github.action_path }}/swift.sh" \
-        swift:${{ inputs.image-tag }} \
-        ${{ inputs.args }}
+          -a stdin -a stdout -a stderr \
+          -v "${{ github.action_path }}":/opt/actions-swift \
+          -v `pwd`:`pwd` -w `pwd` \
+          --entrypoint /opt/actions-swift/swift.sh" \
+          swift:${{ inputs.image-tag }} \
+          ${{ inputs.args }}
