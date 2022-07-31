@@ -20,7 +20,7 @@ jobs:
       fail-fast: true
       matrix: 
         operating-system: ["ubuntu-18.04", "ubuntu-20.04"]
-        image-tag: [
+        swift-image-tag: [
           "5.6-bionic",
           "5.6-focal",
           "5.6-centos7",
@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./
         with:
-          image-tag: ${{ matrix.image-tag }}
+          swift-image-tag: ${{ matrix.swift-image-tag }}
           args: build --package-path tests
 
   tests-without-docker:
@@ -45,23 +45,12 @@ jobs:
       fail-fast: true
       matrix:
         operating-system: ["macos-12", "ubuntu-18.04", "ubuntu-20.04"]
-        swift-version: ["5.6.2"]
-        include:
-          - swift-version: "5.6.2"
-            xcode-version: "13.4.1"
+        swift-version: ["5.4.3", "5.5.3", "5.6.2"]
     runs-on: ${{ matrix.operating-system }}
     steps:
       - uses: actions/checkout@v3
-      - uses: sinoru/actions-setup-xcode@v2
-        if: ${{ startsWith(matrix.operating-system, 'macos') && matrix.xcode-version }}
-        with:
-          xcode-version: ${{ matrix.xcode-version }}
-          apple-id: ${{ secrets.APPLE_ID }}
-          apple-id-password: ${{ secrets.APPLE_ID_PASSWORD }}
-      - uses: sinoru/actions-setup-swift@v2
-        with:
-          swift-version: ${{ matrix.swift-version }}
       - uses: ./
         with:
-          image-tag: null
+          swift-image-tag: null
+          swift-version: ${{ matrix.swift-version }}
           args: build --package-path tests
