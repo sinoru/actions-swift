@@ -11,7 +11,6 @@ inputs:
   swift-image-tag:
     description: 'A Swift docker image tag to use.'
     required: false
-    default: 'latest'
   swift-version:
     description: 'A Swift version to download using swift-env.'
     required: false
@@ -21,17 +20,18 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - if: ${{ inputs.swift-image-tag == null && inputs.swift-version != null }}
+    - if: ${{ inputs.swift-version != null }}
       uses: sinoru/actions-setup-swift@v2
       with:
         swift-version: ${{ inputs.swift-version }}
-    - if: ${{ inputs.swift-image-tag == null }}
-      shell: bash
-      run: '"${{ github.action_path }}/swift" ${{ inputs.args }}'
 
     - if: ${{ inputs.swift-image-tag != null }}
       shell: bash
       run: docker pull swift:${{ inputs.swift-image-tag }}
+
+    - if: ${{ inputs.swift-image-tag == null }}
+      shell: bash
+      run: '"${{ github.action_path }}/swift" ${{ inputs.args }}'
     - if: ${{ inputs.swift-image-tag != null }}
       shell: bash
       run: |
