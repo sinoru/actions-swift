@@ -31,6 +31,6 @@ runs:
           -a stdin -a stdout -a stderr \
           -v "${{ github.action_path }}":/opt/actions-swift \
           -v `pwd`:`pwd` -w `pwd` \
-          --entrypoint /opt/actions-swift/swift.sh" \
+          --entrypoint "/opt/actions-swift/swift.sh" \
           swift:${{ inputs.image-tag }} \
           ${{ inputs.args }}
